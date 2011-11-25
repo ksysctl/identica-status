@@ -17,15 +17,13 @@ if (!defined('IDENTICA_STATUS_PLUGIN_NAME'))
 if (!defined('IDENTICA_STATUS_PLUGIN_VERSION'))
     define('IDENTICA_STATUS_PLUGIN_VERSION', '1.0.0.alpha');
 
-load_plugin_textdomain('identica-status', false, dirname(plugin_basename(__FILE__)) . '/lang');
-
 /* main class */
 class Identica_status_WP_Widget extends WP_Widget {
 	/* constructor */
 	function Identica_status_WP_Widget() {
 		$widget_opts = array(
 			'classname' => 'identica_status_widget',
-			'description' => __('Displays last updates from identi.ca accounts', 'identica-status')
+			'description' => __('Displays last updates from identi.ca accounts', 'identica_status_widget')
 		);
 		$this->WP_Widget('identica-status', __('Identi.ca last updates', 'identica_status_widget'), $widget_opts);
 	}
@@ -95,6 +93,7 @@ class Identica_status_WP_Widget extends WP_Widget {
 /* register widget */
 function Identica_status_register()
 {
+	load_plugin_textdomain('identica-status', false, dirname(plugin_basename(__FILE__)) . '/lang');
 	register_widget('Identica_status_WP_Widget');
 }
 
