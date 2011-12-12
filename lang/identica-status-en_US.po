@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: identica-status 1.0.0.alpha\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-24 22:04-0600\n"
-"PO-Revision-Date: 2011-11-24 22:04-0600\n"
+"POT-Creation-Date: 2011-12-11 17:48-0600\n"
+"PO-Revision-Date: 2011-12-11 17:48-0600\n"
 "Last-Translator: Moises Brenes <moises.brenes@gmail.com>\n"
 "Language-Team: Moises Brenes <moises.brenes@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -21,18 +21,22 @@ msgid "Title:"
 msgstr "Title:"
 
 #: form.php:6
+msgid "Link to profile"
+msgstr "Link to profile"
+
+#: form.php:10
 msgid "Screen name:"
 msgstr "Screen name:"
 
-#: form.php:10
+#: form.php:14
 msgid "Post count:"
 msgstr "Post count:"
 
-#: widget.php:26
+#: widget.php:28
 msgid "Displays last updates from identi.ca accounts"
 msgstr "Displays last updates from identi.ca accounts"
 
-#: widget.php:28
+#: widget.php:30
 msgid "Identi.ca last updates"
 msgstr "Identi.ca last updates"
 
