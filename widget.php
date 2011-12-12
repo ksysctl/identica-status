@@ -10,6 +10,8 @@ Author URI: http://www.mbrenes.com/
 
 /* import settings module */
 require_once('settings.php');
+/* import api module */
+require_once('api.php');
 
 /* set constants related to this package */
 if (!defined('IDENTICA_STATUS_PLUGIN_NAME'))
@@ -35,16 +37,43 @@ class Identica_status_WP_Widget extends WP_Widget {
         $title = $instance['title'];
         $screen_name = $instance['screen_name'];
         $post_count = (int) $instance['post_count'];
+        $profile_link = $instance['profile_link'];
 
-        $content_data = $screen_name . " ($post_count)";
+        $identica = new MyIdentica($screen_name);
+        $statuses = $identica->get_user_timeline($post_count);
+        $profile = $identica->get_user_profile();
+
+        /* set title */
+        $content = '';
+		if (!empty($title)) {
+        	$content .= $before_title;
+        	$content .= ($profile_link == true) ? '<a title="' . $profile->name . '" href="' . MyIdentica::USER_URL . $profile->id . '">' . $title . '</a>' : $title;
+        	$content .= $after_title;
+        }
+
+        /* set body */
+        $content .= '<ul>';
+        foreach ($statuses as $status) {
+        	$content .= '<li>';
+        	$content .= '<a class="identica-status-screen-name" title="' . $status->user->name . '" href="' . $status->user->statusnet_profile_url . '">@'
+        	. $status->user->screen_name
+        	. '</a>: ';
+            if (is_null($status->in_reply_to_user_id) == false) {
+	        	$content .= 'RT <a class="identica-status-screen-name" title="' . $status->in_reply_to_screen_name . '" href="' . MyIdentica::USER_URL . (string) $status->in_reply_to_user_id . '">@'
+	        	. $status->in_reply_to_screen_name
+	        	. '</a> ';
+        	}
+        	$content .= '<span class="identica-status-text">' . $status->text . '</span>';
+        	$content .= '<a class="identica-status-date-time" title="' . $status->created_at . '" href="' . MyIdentica::NOTICE_URL . (string) $status->id . '"> at '
+        	. $status->created_at
+        	. '</a>';
+			$content .= '</li>';
+        }
+        $content .= '</ul>';
 
         /* render the widget */
 		echo $before_widget
-		. $before_title
-		. $title
-		. $after_title
-		. $content_data
-		. $widget_content
+		. $content
 		. $after_widget;
 	}
 
@@ -57,6 +86,7 @@ class Identica_status_WP_Widget extends WP_Widget {
         $title = empty($new_instance['title']) ? $my_widget_settings['title'] : strip_tags($new_instance['title']);
         $screen_name = empty($new_instance['screen_name']) ? $my_widget_settings['screen_name'] : strip_tags($new_instance['screen_name']);
         $post_count = empty($new_instance['post_count']) ? $my_widget_settings['min_post_count'] : (int) $new_instance['post_count'];
+        $profile_link = ($new_instance['profile_link'] == 'true') ? true : false;
 
         if ($post_count > $my_widget_settings['max_post_count'])
         	$post_count = $my_widget_settings['max_post_count'];
@@ -67,6 +97,7 @@ class Identica_status_WP_Widget extends WP_Widget {
 		$instance['title'] = $title;
 		$instance['screen_name'] = $screen_name;
 		$instance['post_count'] = $post_count;
+		$instance['profile_link'] = $profile_link;
 
 		return $instance;
     }
@@ -76,14 +107,17 @@ class Identica_status_WP_Widget extends WP_Widget {
     	$title = esc_attr($instance['title']);
     	$screen_name = esc_attr($instance['screen_name']);
     	$post_count = (int) $instance['post_count'];
+    	$profile_link = $instance['profile_link'];
 
     	$title_id = $this->get_field_id('title');
     	$screen_name_id = $this->get_field_id('screen_name');
     	$post_count_id = $this->get_field_id('post_count');
+    	$profile_link_id = $this->get_field_id('profile_link');
 
 		$title_field = $this->get_field_name('title');
 		$screen_name_field = $this->get_field_name('screen_name');
 		$post_count_field = $this->get_field_name('post_count');
+		$profile_link_field = $this->get_field_name('profile_link');
 
 		/* import form */
 		include('form.php');
