@@ -20,7 +20,7 @@ class MyIdentica {
 	const NOTICE_URL = 'http://identi.ca/notice/'; // notice endpoint base
 	const API_URL = 'http://identi.ca/api/'; // api endpoint base
 	const API_COUNT = 16; // default amount of statuses to fetch
-	const USER_AGENT = 'MyIdentica/1.0.0.alpha;http://mbrenes.com'; // custom user-agent
+	const USER_AGENT = 'MyIdentica/1.0.0.beta;http://gin.github.com/identica-status'; // custom user-agent
 
 	/**
 	 * PHP5 constructor

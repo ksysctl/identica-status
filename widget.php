@@ -4,7 +4,7 @@ Plugin Name: Identica status
 Plugin URI: https://github.com/gin/identica-status
 Description: Displays last updates from identi.ca accounts.
 Author: Moises brenes
-Version: 1.0.0.alpha
+Version: 1.0.0.beta
 Author URI: http://www.mbrenes.com/
 */
 
